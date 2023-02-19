@@ -31,6 +31,8 @@ def Neville(x, f, y):
 def divided_diff_Newton(x, f):
     n = len(x)
     matrix = np.zeros((n, n))
+    matrix_diag = np.zeros(n-1)
+
     
     for i in range(n):
         matrix[i][0] = f[i]
@@ -42,8 +44,8 @@ def divided_diff_Newton(x, f):
             matrix[i][j] = numerator / denominator
     
     for i in range(1, n):
-        print(matrix[i][i])
-    print()
+        matrix_diag[i-1] = matrix[i][i]
+    print(matrix_diag, end='\n\n')
     
     return matrix
 
@@ -74,7 +76,7 @@ def dd_aprox_result_Newton(matrix, x, val):
 #   for generating a divided difference matrix
 def dd_matrix_Hermite(x, f, df):
     n = len(x)
-    matrix = np.zeros((2*n, 2*n+1))
+    matrix = np.zeros((2*n, 2*n))
     
     for i in range(n):
         matrix[2*i][0] = x[i]
@@ -142,7 +144,9 @@ def cubic_Spline(x, f):
     
     c = np.dot(inv(A), b)
     
-    print(A); print(b); print(c)
+    print(A, end='\n\n')
+    print(b, end='\n\n')
+    print(c)
     return
 
 def main():
@@ -159,8 +163,8 @@ def main():
     # Question 3
     print(dd_aprox_result_Newton(dd_matrix, x_newt, 7.3), end = '\n\n')
 
-    # Set print options for question 4
-    np.set_printoptions(suppress = True, precision = 4)
+    # Set print options for questions 4 and 5
+    np.set_printoptions(precision=7, suppress=True, linewidth=100)
 
     # Question 4
     x_her = [3.6, 3.8, 3.9]
@@ -168,9 +172,6 @@ def main():
     df_her = [-1.195, -1.188, -1.182]
     matrix_her = dd_matrix_Hermite(x_her, f_her, df_her)
     print(matrix_her, end='\n\n')
-    
-    # Set print options for question 5
-    np.set_printoptions(precision = 8)
 
     # Question 5
     x_spline = [2, 5, 8, 10]
